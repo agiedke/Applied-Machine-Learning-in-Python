@@ -1,0 +1,48 @@
+def answer_one():
+    
+    # Your code here
+    df = pd.read_csv("fraud_data.csv")
+    perc_0 = df['Class'].value_counts(normalize=True)[1]
+    
+    return perc_0
+
+
+def answer_two():
+    from sklearn.dummy import DummyClassifier
+    from sklearn.metrics import recall_score
+    
+    # Your code here
+    dummy_majority = DummyClassifier(strategy = 'most_frequent').fit(X_train, y_train)
+    accuracy_score = dummy_majority.score(X_test, y_test)
+    
+    pred = dummy_majority.predict(X_test)
+    recall_score = recall_score(y_test, pred) 
+    
+    return accuracy_score, recall_score# Return your answer
+
+
+def answer_three():
+    from sklearn.metrics import recall_score, precision_score
+    from sklearn.svm import SVC
+
+    # Your code here
+    svm = SVC().fit(X_train, y_train)
+    pred = dummy_majority.predict(X_test)
+    
+    accuracy_score = svm.score(X_test, y_test)
+    recall_score = recall_score(y_test, pred) 
+    precision_score = precision_score(y_test, pred) 
+    
+    return accuracy_score, recall_score, precision_score# Return your answer
+
+
+def answer_four():
+    from sklearn.metrics import confusion_matrix
+    from sklearn.svm import SVC
+
+    # Your code here
+    svm = SVC(C = 1e9, gamma = 1e-07).fit(X_train, y_train)
+    pred = dummy_majority.predict(X_test)
+    conf_mat = confusion_matrix(y_test, pred)
+    
+    return conf_mat # Return your answer

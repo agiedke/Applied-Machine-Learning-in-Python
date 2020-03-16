@@ -1,0 +1,70 @@
+#print(m)
+# incorrect answer
+
+from sklearn.metrics import classification_report
+#print(m)
+grid_values = {'gamma': [0.01, 0.1, 1, 10], 'C': [0.01, 0.1, 1, 10]}
+grid_rpf_svc = GridSearchCV(m, param_grid = grid_values, scoring = 'recall')
+grid_rpf_svc.fit(X_test, y_test)
+
+optim_gamma = grid_rpf_svc.best_params_['gamma']
+optim_c = grid_rpf_svc.best_params_['C']
+
+#print(optim_gamma)
+#print(optim_c)
+
+# fit model with optim gamma and c to calculate precision
+m2 = SVC(kernel = 'rbf', gamma = optim_gamma, C = optim_c).fit(X_train, y_train)
+svc_pred = m2.predict(X_test)
+
+print(classification_report(y_test, svc_pred))
+
+# recall score
+print("recall score")
+rec_score = recall_score(y_test, svc_pred)
+print(rec_score)
+# precision score
+print("precision score")
+prec_score = precision_score(y_test, svc_pred)
+print(prec_score)
+
+# optimal score
+diff_rec_prec = rec_score-prec_score
+print("Difference Recall Precision")
+print(diff_rec_prec)
+
+
+
+
+
+
+# correct answer
+
+grid_values = {'gamma': [0.01, 0.1, 1, 10], 'C': [0.01, 0.1, 1, 10]}
+grid_rpf_svc = GridSearchCV(m, param_grid = grid_values, scoring = 'precision')
+grid_rpf_svc.fit(X_test, y_test)
+
+#print(grid_rpf_svc.best_params_)
+#print(grid_rpf_svc.best_params_['gamma'])
+#print(grid_rpf_svc.best_params_['C'])
+
+optim_gamma = grid_rpf_svc.best_params_['gamma']
+optim_c = grid_rpf_svc.best_params_['C']
+
+# fit model with optim gamma and c to calculate precision
+m2 = SVC(kernel = 'rbf', gamma = optim_gamma, C = optim_c).fit(X_train, y_train)
+svc_pred = m2.predict(X_test)
+
+# recall score
+print("recall score")
+rec_score = recall_score(y_test, svc_pred)
+print(rec_score)
+# precision score
+print("precision score")
+prec_score = precision_score(y_test, svc_pred)
+print(prec_score)
+
+# difference recall - precision
+diff_prec_rec = prec_score-rec_score
+print("Difference Precision Recall")
+print(diff_prec_rec)
